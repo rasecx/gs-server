@@ -396,4 +396,12 @@ public class Utils {
         }
         
     }
+    
+    public static void ControleThread(String novoNome){
+        
+        Thread.currentThread().setName(novoNome);
+        Thread.currentThread().setPriority(Thread.MAX_PRIORITY);        
+        Thread.yield();
+    
+    }
 }

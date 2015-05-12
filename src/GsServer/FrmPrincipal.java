@@ -445,6 +445,11 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jLabel11.setText("Horas");
 
         chkAvisoTorrentConcluido.setText("Habilitar Notificação");
+        chkAvisoTorrentConcluido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkAvisoTorrentConcluidoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -648,25 +653,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
         Utils.carregaConfiguracoes();
-
-        if (chkAvisoTorrentConcluido.isSelected()) {
-            new ThreadEnviaNotificaoAndroid().start();
-        }
-
         new Thread(new Runnable() {
             @Override
             public void run() {
+                Utils.ControleThread("IniciaProcesso");
                 iniciaProcesso();
             }
         }).start();
-        btnBaixarDoArquivo.setIcon(new javax.swing.ImageIcon(dir + "\\icons\\srt.png"));
-        btnBaixarPendentes.setIcon(new javax.swing.ImageIcon(dir + "\\icons\\download-icon.png"));
-        if (!edtIpUtorrent.getText().equals("")) {
-            new ThreadBuscaLegendaTorrents().start();
-        }
-        
-        new ThreadGarbageCollector().start();
-
+       
+       
     }//GEN-LAST:event_formWindowOpened
 
     public void iniciaProcesso() {
@@ -838,6 +833,12 @@ public class FrmPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIntervaloNotificacaoActionPerformed
 
+    private void chkAvisoTorrentConcluidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkAvisoTorrentConcluidoActionPerformed
+        // TODO add your handling code here:
+        if(chkHabilitaAtalho.isEnabled())
+            new ThreadEnviaNotificaoAndroid().start();
+    }//GEN-LAST:event_chkAvisoTorrentConcluidoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -911,8 +912,20 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
                 Image image = Toolkit.getDefaultToolkit().getImage(urlImg);
                 frm.setIconImage(image);
+                
+                btnBaixarDoArquivo.setIcon(new javax.swing.ImageIcon(dir + "\\icons\\srt.png"));
+                btnBaixarPendentes.setIcon(new javax.swing.ImageIcon(dir + "\\icons\\download-icon.png"));
 
                 new ThreadIniciaCapturaTeclado().start();
+                 if (!edtIpUtorrent.getText().equals(""))
+                    new ThreadBuscaLegendaTorrents().start();
+        
+                new ThreadGarbageCollector().start();
+                
+                if (chkAvisoTorrentConcluido.isSelected()) {
+                    new ThreadEnviaNotificaoAndroid().start();
+                }   
+
             }
         });
 
@@ -1058,7 +1071,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBaixarDoArquivo;
+    private static javax.swing.JButton btnBaixarDoArquivo;
     public static javax.swing.JButton btnBaixarPendentes;
     private javax.swing.JButton btnSalvaConfigs;
     private javax.swing.ButtonGroup buttonGroup1;
