@@ -12,15 +12,21 @@ import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import org.fourthline.cling.UpnpService;
 import org.fourthline.cling.UpnpServiceImpl;
+import org.fourthline.cling.mock.MockUpnpService;
+import org.fourthline.cling.model.message.Connection.*;
+
 import org.fourthline.cling.model.message.header.STAllHeader;
 import org.fourthline.cling.model.meta.LocalDevice;
 import org.fourthline.cling.model.meta.RemoteDevice;
+import org.fourthline.cling.model.meta.Service;
+import org.fourthline.cling.model.types.UDAServiceId;
 import org.fourthline.cling.registry.Registry;
 import org.fourthline.cling.registry.RegistryListener;
 import org.wetorrent.upnp.GatewayDevice;
 import org.wetorrent.upnp.GatewayDiscover;
 import org.wetorrent.upnp.LogUtils;
 import org.xml.sax.SAXException;
+
 
 /**
  *
@@ -29,8 +35,8 @@ import org.xml.sax.SAXException;
 public class Upnp {
     
      public static void main (String[] args){
-       // Upnp.mapeaPortas();
-         upnpCling();
+        Upnp.mapeaPortas();
+        // upnpCling();
                 
     }
 
@@ -144,4 +150,9 @@ public class Upnp {
         System.out.println("Stopping Cling...");
         upnpService.shutdown();
     }
+    
+    
+    
+    
+    
 }
