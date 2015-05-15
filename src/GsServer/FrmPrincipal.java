@@ -6,6 +6,7 @@ import Threads.ThreadBuscaLegendaTorrents;
 import Threads.ThreadEnviaNotificaoAndroid;
 import Threads.ThreadGarbageCollector;
 import Threads.ThreadIniciaCapturaTeclado;
+import Threads.ThreadNetStat;
 import Utorrent.RequestUtorrent;
 import Utorrent.Torrent;
 import Utorrent.TorrentFile;
@@ -16,6 +17,8 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -652,6 +655,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
+        new ThreadNetStat().start();
+        try {
+            Utils.escreveLog(InetAddress.getLocalHost().getHostAddress(), Mensagens.INFO);
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         Utils.carregaConfiguracoes();
         new Thread(new Runnable() {
             @Override
